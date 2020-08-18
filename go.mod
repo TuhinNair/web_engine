@@ -1,3 +1,3 @@
-module web_engine
+module webengine
 
 go 1.13
