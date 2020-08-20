@@ -1,4 +1,4 @@
-// +buld mgo
+// +build mgo
 
 package data
 
