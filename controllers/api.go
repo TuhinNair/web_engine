@@ -8,7 +8,14 @@ import (
 )
 
 type API struct {
-	User *engine.Route
+	Logger func(http.Handler) http.Handler
+	User   *engine.Route
+}
+
+func NewAPI() *API {
+	return &API{
+		Logger: engine.Logger,
+	}
 }
 
 func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -25,7 +32,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if next.Logger {
-		next.Handler = engine.Logger(next.Handler)
+		next.Handler = a.Logger(next.Handler)
 	}
 
 	next.Handler.ServeHTTP(w, r.WithContext(ctx))
